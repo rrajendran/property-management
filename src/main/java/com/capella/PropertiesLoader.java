@@ -2,9 +2,7 @@ package com.capella;
 
 import com.capella.zookeeper.ZooKeeperConnection;
 import org.apache.commons.lang3.SerializationUtils;
-import org.apache.zookeeper.KeeperException;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +27,7 @@ public class PropertiesLoader {
             try {
                 byte[] data = SerializationUtils.serialize(entry.getValue());
                 zkConnection.create(rootNode + "/" + entry.getKey(), data);
-            } catch (KeeperException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });

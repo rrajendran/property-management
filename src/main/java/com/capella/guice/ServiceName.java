@@ -9,7 +9,7 @@ import javax.inject.Inject;
  */
 public class ServiceName {
 
-    @Named(value = "ipt.ipf.process.bpm.service.url")
+    @Named(value = "ipt.fulfillment.persistence.service.properties")
     @Inject
     private String url;
 

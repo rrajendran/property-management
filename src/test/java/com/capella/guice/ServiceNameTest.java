@@ -1,5 +1,6 @@
 package com.capella.guice;
 
+import com.capella.zookeeper.BaseTest;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
@@ -10,12 +11,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by ramesh on 28/05/2016.
  */
-public class ServiceNameTest {
+public class ServiceNameTest extends BaseTest {
 
     @Test
     public void testGetUrl() throws Exception {
         Injector injector = Guice.createInjector(new ApplicationModule());
         ServiceName serviceName = injector.getInstance(ServiceName.class);
-        assertThat(serviceName.getUrl(), is("http://localhost:9923/fulfilment-bpm-service"));
+        assertThat(serviceName.getUrl(), is("http://localhost:9923/ipt-ms-fulfillment-persistence-services"));
     }
 }

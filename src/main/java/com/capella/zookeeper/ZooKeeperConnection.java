@@ -1,47 +1,30 @@
 package com.capella.zookeeper;// import java classes
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.apache.zookeeper.*;
-import org.apache.zookeeper.Watcher.Event.KeeperState;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 // import zk classes
 
 public class ZooKeeperConnection {
     private static ZooKeeperConnection instance;
-    private ZooKeeper zk;
-    final CountDownLatch connectedSignal = new CountDownLatch(1);
+    private static CuratorFramework client;
 
     /**
      * @throws IOException
      * @throws InterruptedException
      */
     private ZooKeeperConnection() throws IOException, InterruptedException {
-        zk = new ZooKeeper("localhost", 5000, new Watcher() {
-
-            public void process(WatchedEvent we) {
-                if (we.getState() == KeeperState.SyncConnected) {
-                    connectedSignal.countDown();
-                } else if (we.getType() == Event.EventType.NodeDataChanged) {
-                    System.out.println("NodeDataChanged :" + we.getPath());
-                } else if (we.getType() == Event.EventType.NodeDeleted) {
-                    System.out.println("NodeDeleted :" + we.getPath());
-                } else if (we.getType() == Event.EventType.NodeCreated) {
-                    System.out.println("NodeCreated :" + we.getPath());
-                } else if (we.getType() == Event.EventType.NodeChildrenChanged) {
-                    System.out.println("NodeChildrenChanged :" + we.getPath());
-                } else if (we.getType() == Event.EventType.NodeDeleted) {
-                    System.out.println("NodeDeleted :" + we.getPath());
-                }
-            }
-        });
-
-        connectedSignal.await();
-
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        client = CuratorFrameworkFactory.newClient("localhost:2121", retryPolicy);
+        client.start();
     }
 
     /**
@@ -60,8 +43,8 @@ public class ZooKeeperConnection {
         return null;
     }
 
-    public ZooKeeper getZookeeper() {
-        return this.zk;
+    public CuratorFramework getZookeeper() {
+        return this.client;
     }
 
     /**
@@ -74,17 +57,8 @@ public class ZooKeeperConnection {
      * @throws InterruptedException
      * @throws IOException
      */
-    public String create(String path, byte[] data) throws
-            KeeperException, InterruptedException, IOException {
-        Stat stats = exists(path);
-        if (stats == null) {
-
-            return zk.create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE,
-                    CreateMode.PERSISTENT);
-        } else {
-            zk.setData(path, data, stats.getVersion());
-        }
-        return path;
+    public String create(String path, byte[] data) throws Exception {
+        return client.create().forPath(path, data);
     }
 
     /**
@@ -95,9 +69,8 @@ public class ZooKeeperConnection {
      * @throws KeeperException
      * @throws InterruptedException
      */
-    public Stat exists(String path) throws
-            KeeperException, InterruptedException {
-        return zk.exists(path, true);
+    public Stat exists(String path) throws Exception {
+        return client.checkExists().forPath(path);
     }
 
     /**
@@ -115,7 +88,7 @@ public class ZooKeeperConnection {
             Stat stat = exists(path);
 
             if (stat != null) {
-                byte[] b = zk.getData(path, null, stat);
+                byte[] b = client.getData().forPath(path);
                 return (T) SerializationUtils.deserialize(b);
             } else {
                 System.out.println("Node does not exists");
@@ -141,7 +114,7 @@ public class ZooKeeperConnection {
 
             if (stat != null) {
                 //“getChildren” method- get all the children of znode.It has two
-                children = zk.getChildren(path, false);
+                children = client.getChildren().forPath(path);
 
             } else {
                 throw new RuntimeException("Node does not exists");
@@ -162,8 +135,8 @@ public class ZooKeeperConnection {
      * @throws KeeperException
      * @throws InterruptedException
      */
-    public void delete(String path) throws KeeperException, InterruptedException {
-        zk.delete(path, exists(path).getVersion());
+    public void delete(String path) throws Exception {
+        client.delete().forPath(path);
     }
 
     /**
@@ -173,10 +146,7 @@ public class ZooKeeperConnection {
      */
     // Method to disconnect from zk server
     public void close() throws InterruptedException {
-        if (zk != null) {
-            zk.close();
-
-        }
+        client.close();
     }
 
 }
