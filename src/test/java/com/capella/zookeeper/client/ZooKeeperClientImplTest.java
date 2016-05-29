@@ -1,5 +1,6 @@
 package com.capella.zookeeper.client;
 
+import com.capella.zookeeper.guice.PropertiesWatcher;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.zookeeper.KeeperException;
 import org.junit.After;
@@ -11,8 +12,8 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ZooKeeperConnectionTest extends BaseTest {
-    private ZooKeeperConnection zoo = ZooKeeperConnection.getInstance();
+public class ZookeeperClientImplTest extends BaseTest {
+    private ZookeeperClientImpl zoo = ZookeeperClientImpl.getInstance();
     private String path;
 
     @Before
@@ -30,7 +31,7 @@ public class ZooKeeperConnectionTest extends BaseTest {
 
     @Test
     public void testGetChildren() throws Exception {
-        List<String> children = zoo.getChildren(path);
+        List<String> children = zoo.getChildren(path, new PropertiesWatcher());
         for (String child : children) {
             System.out.println("child : " + child);
         }

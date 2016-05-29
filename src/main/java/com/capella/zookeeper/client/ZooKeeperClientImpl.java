@@ -6,6 +6,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
@@ -13,15 +14,15 @@ import java.util.List;
 
 // import zk classes
 
-public class ZooKeeperConnection {
-    private static ZooKeeperConnection instance;
+public class ZookeeperClientImpl implements ZookeeperClient {
+    private static ZookeeperClientImpl instance;
     private static CuratorFramework client;
 
     /**
      * @throws IOException
      * @throws InterruptedException
      */
-    private ZooKeeperConnection() throws IOException, InterruptedException {
+    private ZookeeperClientImpl() throws IOException, InterruptedException {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         client = CuratorFrameworkFactory.newClient("localhost:2121", retryPolicy);
         client.start();
@@ -32,9 +33,9 @@ public class ZooKeeperConnection {
      *
      * @return
      */
-    public static ZooKeeperConnection getInstance() {
+    public static ZookeeperClientImpl getInstance() {
         try {
-            return instance == null ? instance = new ZooKeeperConnection() : instance;
+            return instance == null ? instance = new ZookeeperClientImpl() : instance;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -112,17 +113,18 @@ public class ZooKeeperConnection {
      * Get all children
      *
      * @param path
+     * @param watcher
      * @return
      * @throws Exception
      */
-    public List<String> getChildren(String path) throws Exception {
+    public List<String> getChildren(String path, Watcher watcher) throws Exception {
         List<String> children;
         try {
             Stat stat = exists(path); // Stat checks the path
 
             if (stat != null) {
                 //“getChildren” method- get all the children of znode.It has two
-                children = client.getChildren().forPath(path);
+                children = client.getChildren().usingWatcher(watcher).forPath(path);
 
             } else {
                 throw new RuntimeException("Node does not exists");

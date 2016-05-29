@@ -1,7 +1,7 @@
-package com.capella;
+package com.capella.zookeeper.loader;
 
 import com.capella.zookeeper.client.BaseTest;
-import com.capella.zookeeper.client.ZooKeeperConnection;
+import com.capella.zookeeper.client.ZookeeperClientImpl;
 import com.capella.zookeeper.guice.ApplicationModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -24,13 +24,13 @@ import static org.junit.Assert.assertThat;
 public class PropertiesLoaderTest extends BaseTest {
     Injector injector = Guice.createInjector(new ApplicationModule());
 
-    private ZooKeeperConnection zooKeeperConnection;
+    private ZookeeperClientImpl zookeeperClientImpl;
     private PropertiesLoader propertiesLoader;
 
     @Before
     public void setUp() throws Exception {
-        zooKeeperConnection = injector.getInstance(ZooKeeperConnection.class);
-        assertThat(zooKeeperConnection, is(notNullValue()));
+        zookeeperClientImpl = injector.getInstance(ZookeeperClientImpl.class);
+        assertThat(zookeeperClientImpl, is(notNullValue()));
 
         propertiesLoader = injector.getInstance(PropertiesLoader.class);
         assertThat(propertiesLoader, is(notNullValue()));
@@ -43,7 +43,7 @@ public class PropertiesLoaderTest extends BaseTest {
 
     @After
     public void tearDown() throws Exception {
-        zooKeeperConnection.delete("/testProperties");
+        zookeeperClientImpl.delete("/testProperties");
     }
 
 

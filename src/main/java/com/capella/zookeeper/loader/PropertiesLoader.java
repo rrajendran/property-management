@@ -1,6 +1,7 @@
-package com.capella;
+package com.capella.zookeeper.loader;
 
-import com.capella.zookeeper.client.ZooKeeperConnection;
+import com.capella.zookeeper.client.ZookeeperClientImpl;
+import com.capella.zookeeper.guice.PropertiesWatcher;
 import org.apache.commons.lang3.SerializationUtils;
 
 import javax.inject.Inject;
@@ -16,7 +17,7 @@ import java.util.Properties;
 public class PropertiesLoader {
 
     @Inject
-    private ZooKeeperConnection zkConnection;
+    private ZookeeperClientImpl zkConnection;
 
     /**
      * Load properties to zookeeper
@@ -49,7 +50,7 @@ public class PropertiesLoader {
      * @throws Exception
      */
     public Map<String, String> readProperties(String namespace) throws Exception {
-        List<String> children = zkConnection.getChildren(namespace);
+        List<String> children = zkConnection.getChildren(namespace, new PropertiesWatcher());
         Map<String, String> props = new HashMap<String, String>();
         for (String child : children) {
             String path = namespace + "/" + child;
