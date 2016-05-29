@@ -1,6 +1,6 @@
-package com.capella.guice;
+package com.capella.zookeeper.guice;
 
-import com.capella.zookeeper.BaseTest;
+import com.capella.zookeeper.client.BaseTest;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
@@ -17,6 +17,6 @@ public class ServiceNameTest extends BaseTest {
     public void testGetUrl() throws Exception {
         Injector injector = Guice.createInjector(new ApplicationModule());
         ServiceName serviceName = injector.getInstance(ServiceName.class);
-        assertThat(serviceName.getUrl(), is("http://localhost:9923/ipt-ms-fulfillment-persistence-services"));
+        assertThat(serviceName.getProperties().size(), is(31));
     }
 }

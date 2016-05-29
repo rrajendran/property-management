@@ -1,6 +1,6 @@
-package com.capella.guice;
+package com.capella.zookeeper.guice;
 
-import com.capella.zookeeper.BaseTest;
+import com.capella.zookeeper.client.BaseTest;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;

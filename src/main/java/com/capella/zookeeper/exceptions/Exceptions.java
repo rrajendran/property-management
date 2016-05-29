@@ -1,4 +1,4 @@
-package com.capella.exceptions;
+package com.capella.zookeeper.exceptions;
 
 import java.util.concurrent.Callable;
 

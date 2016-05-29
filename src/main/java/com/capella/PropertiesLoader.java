@@ -1,8 +1,9 @@
 package com.capella;
 
-import com.capella.zookeeper.ZooKeeperConnection;
+import com.capella.zookeeper.client.ZooKeeperConnection;
 import org.apache.commons.lang3.SerializationUtils;
 
+import javax.inject.Inject;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -10,19 +11,26 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created by ramesh on 28/05/2016.
+ * Properties loader
  */
 public class PropertiesLoader {
 
+    @Inject
+    private ZooKeeperConnection zkConnection;
 
-    public static void main(String[] args) throws Exception {
-        InputStream resourceAsStream = PropertiesLoader.class.getClassLoader().getResourceAsStream("ms-fulfillment-service.properties");
+    /**
+     * Load properties to zookeeper
+     *
+     * @param inputStream
+     * @param namespace
+     * @throws Exception
+     */
+    public void load(InputStream inputStream, String namespace) throws Exception {
         Properties properties = new Properties();
-        properties.load(resourceAsStream);
+        properties.load(inputStream);
         Map<String, String> map = (Map) properties;
 
-        ZooKeeperConnection zkConnection = ZooKeeperConnection.getInstance();
-        String rootNode = zkConnection.create("/ipt-ss-fulfillment-services", null);
+        String rootNode = zkConnection.create("/" + namespace, null);
         map.entrySet().stream().forEach(entry -> {
             try {
                 byte[] data = SerializationUtils.serialize(entry.getValue());
@@ -31,18 +39,23 @@ public class PropertiesLoader {
                 e.printStackTrace();
             }
         });
+    }
 
-
-        List<String> children = zkConnection.getChildren(rootNode);
+    /**
+     * Read properties from zookeeper
+     *
+     * @param namespace
+     * @return
+     * @throws Exception
+     */
+    public Map<String, String> readProperties(String namespace) throws Exception {
+        List<String> children = zkConnection.getChildren(namespace);
         Map<String, String> props = new HashMap<String, String>();
         for (String child : children) {
-            String path = rootNode + "/" + child;
+            String path = namespace + "/" + child;
             props.put(child, zkConnection.get(path, String.class));
         }
-
-
-        // zkConnection.delete("/ipt-ss-fulfillment-services");
-
+        return props;
 
     }
 }

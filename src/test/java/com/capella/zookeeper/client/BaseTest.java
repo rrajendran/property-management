@@ -1,4 +1,4 @@
-package com.capella.zookeeper;
+package com.capella.zookeeper.client;
 
 import org.apache.zookeeper.server.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;

@@ -1,6 +1,6 @@
-package com.capella.guice;
+package com.capella.zookeeper.guice;
 
-import com.capella.zookeeper.ZooKeeperConnection;
+import com.capella.zookeeper.client.ZooKeeperConnection;
 import com.google.inject.Provider;
 
 import java.util.List;

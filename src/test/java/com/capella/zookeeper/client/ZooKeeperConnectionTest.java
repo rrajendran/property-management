@@ -1,23 +1,21 @@
-package com.capella.zookeeper;
+package com.capella.zookeeper.client;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.zookeeper.KeeperException;
 import org.junit.After;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static com.capella.zookeeper.ZooKeeperConnection.getInstance;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 public class ZooKeeperConnectionTest extends BaseTest {
-    private ZooKeeperConnection zoo = getInstance();
+    private ZooKeeperConnection zoo = ZooKeeperConnection.getInstance();
     private String path;
 
-    @Test
+    @Before
     public void testCreate() throws Exception {
         byte[] data = SerializationUtils.serialize("helloworld");
         path = zoo.create("/test", data);

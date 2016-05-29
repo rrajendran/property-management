@@ -1,4 +1,4 @@
-package com.capella.zookeeper;// import java classes
+package com.capella.zookeeper.client;// import java classes
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.curator.RetryPolicy;
@@ -58,7 +58,15 @@ public class ZooKeeperConnection {
      * @throws IOException
      */
     public String create(String path, byte[] data) throws Exception {
-        return client.create().forPath(path, data);
+        if (client.checkExists().forPath(path) != null) {
+            Stat stat = client.setData().forPath(path, data);
+            if (stat == null) {
+                throw new RuntimeException("Set data is empty");
+            }
+            return path;
+        } else {
+            return client.create().creatingParentsIfNeeded().forPath(path, data);
+        }
     }
 
     /**
@@ -136,7 +144,7 @@ public class ZooKeeperConnection {
      * @throws InterruptedException
      */
     public void delete(String path) throws Exception {
-        client.delete().forPath(path);
+        client.delete().deletingChildrenIfNeeded().forPath(path);
     }
 
     /**
