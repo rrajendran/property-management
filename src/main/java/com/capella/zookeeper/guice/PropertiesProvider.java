@@ -1,5 +1,6 @@
 package com.capella.zookeeper.guice;
 
+import com.capella.zookeeper.client.ZookeeperClient;
 import com.capella.zookeeper.client.ZookeeperClientImpl;
 import com.google.inject.Provider;
 
@@ -9,15 +10,16 @@ import java.util.Properties;
 public class PropertiesProvider implements Provider<Properties> {
 
     private static Properties properties = new Properties();
-    private static ZookeeperClientImpl zkConnection = ZookeeperClientImpl.getInstance();
+
+    private static ZookeeperClient zookeeperClient = new ZookeeperClientImpl();
 
     static {
         try {
             String rootNode = "/ipt-ss-fulfillment-services";
-            List<String> children = zkConnection.getChildren(rootNode, new PropertiesWatcher());
+            List<String> children = zookeeperClient.getChildren(rootNode, new PropertiesWatcher());
             for (String child : children) {
                 String path = rootNode + "/" + child;
-                properties.put(child, zkConnection.get(path, String.class));
+                properties.put(child, zookeeperClient.get(path, String.class));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
