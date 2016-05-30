@@ -22,7 +22,7 @@ public class ZookeeperClientImpl implements ZookeeperClient {
      * @throws IOException
      * @throws InterruptedException
      */
-    private ZookeeperClientImpl() throws IOException, InterruptedException {
+    public ZookeeperClientImpl() {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         client = CuratorFrameworkFactory.newClient("localhost:2121", retryPolicy);
         client.start();
@@ -34,14 +34,7 @@ public class ZookeeperClientImpl implements ZookeeperClient {
      * @return
      */
     public static ZookeeperClientImpl getInstance() {
-        try {
-            return instance == null ? instance = new ZookeeperClientImpl() : instance;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return instance == null ? instance = new ZookeeperClientImpl() : instance;
     }
 
     public CuratorFramework getZookeeper() {

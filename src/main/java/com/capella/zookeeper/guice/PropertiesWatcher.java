@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import java.util.Properties;
 
 /**
- * Created by ramesh on 29/05/2016.
+ * Zookeeper watcher service
  */
 @Singleton
 public class PropertiesWatcher implements Watcher {
@@ -19,8 +19,9 @@ public class PropertiesWatcher implements Watcher {
 
     @Inject
     private ZookeeperClient zookeeperClient;
+
     @Override
     public void process(WatchedEvent watchedEvent) {
-
+        System.out.println("watchedEvent.. " + watchedEvent.getType());
     }
 }

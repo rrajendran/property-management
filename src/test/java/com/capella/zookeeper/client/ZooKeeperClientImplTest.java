@@ -12,7 +12,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ZookeeperClientImplTest extends BaseTest {
+public class ZooKeeperClientImplTest extends BaseTest {
     private ZookeeperClientImpl zoo = ZookeeperClientImpl.getInstance();
     private String path;
 
