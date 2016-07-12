@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ZooKeeperClientImplTest extends BaseTest {
-    private ZookeeperClientImpl zoo = ZookeeperClientImpl.getInstance();
+
     private String path;
 
     @Before

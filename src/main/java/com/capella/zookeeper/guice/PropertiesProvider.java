@@ -1,7 +1,7 @@
 package com.capella.zookeeper.guice;
 
 import com.capella.zookeeper.client.ZookeeperClient;
-import com.capella.zookeeper.client.ZookeeperClientImpl;
+import com.capella.zookeeper.client.ZooKeeperClientImpl;
 import com.google.inject.Provider;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class PropertiesProvider implements Provider<Properties> {
 
     private static Properties properties = new Properties();
 
-    private static ZookeeperClient zookeeperClient = new ZookeeperClientImpl();
+    private static ZookeeperClient zookeeperClient = new ZooKeeperClientImpl();
 
     static {
         try {

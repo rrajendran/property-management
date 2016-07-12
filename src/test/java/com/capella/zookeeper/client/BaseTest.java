@@ -18,7 +18,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class BaseTest {
     public static final Logger LOGGER = getLogger(BaseTest.class);
     private static ServerCnxnFactory standaloneServerFactory;
-
+    protected ZooKeeperClientImpl zoo = ZooKeeperClientImpl.getInstance();
     @BeforeClass
     public static void init() throws IOException, InterruptedException {
         try {

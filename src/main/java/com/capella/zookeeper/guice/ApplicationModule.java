@@ -1,7 +1,7 @@
 package com.capella.zookeeper.guice;
 
 import com.capella.zookeeper.client.ZookeeperClient;
-import com.capella.zookeeper.client.ZookeeperClientImpl;
+import com.capella.zookeeper.client.ZooKeeperClientImpl;
 import com.capella.zookeeper.loader.PropertiesLoader;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
@@ -22,7 +22,7 @@ public class ApplicationModule extends AbstractModule {
         bind(ServiceName.class);
         bind(PropertiesLoader.class);
 
-        bind(ZookeeperClient.class).to(ZookeeperClientImpl.class).asEagerSingleton();
+        bind(ZookeeperClient.class).to(ZooKeeperClientImpl.class).asEagerSingleton();
     }
 
 }

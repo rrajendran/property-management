@@ -1,6 +1,6 @@
 package com.capella.zookeeper.loader;
 
-import com.capella.zookeeper.client.ZookeeperClientImpl;
+import com.capella.zookeeper.client.ZooKeeperClientImpl;
 import com.capella.zookeeper.guice.PropertiesWatcher;
 import org.apache.commons.lang3.SerializationUtils;
 
@@ -17,7 +17,7 @@ import java.util.Properties;
 public class PropertiesLoader {
 
     @Inject
-    private ZookeeperClientImpl zkConnection;
+    private ZooKeeperClientImpl zkConnection;
 
     /**
      * Load properties to zookeeper

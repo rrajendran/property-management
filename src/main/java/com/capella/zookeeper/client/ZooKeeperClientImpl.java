@@ -14,15 +14,15 @@ import java.util.List;
 
 // import zk classes
 
-public class ZookeeperClientImpl implements ZookeeperClient {
-    private static ZookeeperClientImpl instance;
+public class ZooKeeperClientImpl implements ZookeeperClient {
+    private static ZooKeeperClientImpl instance;
     private static CuratorFramework client;
 
     /**
      * @throws IOException
      * @throws InterruptedException
      */
-    public ZookeeperClientImpl() {
+    public ZooKeeperClientImpl() {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         client = CuratorFrameworkFactory.newClient("localhost:2121", retryPolicy);
         client.start();
@@ -33,10 +33,14 @@ public class ZookeeperClientImpl implements ZookeeperClient {
      *
      * @return
      */
-    public static ZookeeperClientImpl getInstance() {
-        return instance == null ? instance = new ZookeeperClientImpl() : instance;
+    public static ZooKeeperClientImpl getInstance() {
+        return instance == null ? instance = new ZooKeeperClientImpl() : instance;
     }
 
+    public ZooKeeperClientImpl watch(String path) throws Exception {
+        byte[] bytes = client.w
+        return this;
+    }
     public CuratorFramework getZookeeper() {
         return this.client;
     }
