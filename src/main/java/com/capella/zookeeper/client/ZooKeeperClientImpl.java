@@ -37,10 +37,7 @@ public class ZooKeeperClientImpl implements ZookeeperClient {
         return instance == null ? instance = new ZooKeeperClientImpl() : instance;
     }
 
-    public ZooKeeperClientImpl watch(String path) throws Exception {
-        byte[] bytes = client.w
-        return this;
-    }
+
     public CuratorFramework getZookeeper() {
         return this.client;
     }
