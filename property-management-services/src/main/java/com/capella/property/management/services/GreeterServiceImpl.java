@@ -16,7 +16,7 @@ public class GreeterServiceImpl implements GreeterService {
        /* byte[] data = SerializationUtils.serialize(name);
         String path = zookeeperClient.create("/test/name", data);
         System.out.println("path =- "+path);*/
-        String n = new String(zookeeperClient.get("/test/name"));
+        String n = new String(zookeeperClient.get("/ipt-ss-fulfillment-services/service.name"));
         System.out.println("********data***********" + n);
         Person person = new Person();
         person.setName(n);

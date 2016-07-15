@@ -17,7 +17,7 @@ public class PropertiesProvider implements Provider<Properties> {
 
     static {
         try {
-            InputStream inputStream = PropertiesProvider.class.getClassLoader().getResourceAsStream("property-management-client.properties");
+            InputStream inputStream = PropertiesProvider.class.getClassLoader().getResourceAsStream("property-management-service.properties");
             properties.load(inputStream);
             /*String rootNode = "/ipt-ss-fulfillment-services";
             List<String> children = zookeeperClient.getChildren(rootNode, new PropertiesWatcher());
@@ -30,16 +30,16 @@ public class PropertiesProvider implements Provider<Properties> {
         }
     }
 
-    @Override
-    public Properties get() {
-        return properties;
-    }
-
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
 
     public static Properties getProperties() {
+        return properties;
+    }
+
+    @Override
+    public Properties get() {
         return properties;
     }
 }

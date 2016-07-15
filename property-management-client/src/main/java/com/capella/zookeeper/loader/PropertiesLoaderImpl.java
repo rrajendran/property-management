@@ -2,7 +2,6 @@ package com.capella.zookeeper.loader;
 
 import com.capella.zookeeper.client.ZooKeeperClientImpl;
 import com.capella.zookeeper.guice.PropertiesWatcher;
-import org.apache.commons.lang3.SerializationUtils;
 
 import javax.inject.Inject;
 import java.io.InputStream;
@@ -35,8 +34,8 @@ public class PropertiesLoaderImpl implements PropertiesLoader{
         String rootNode = zkConnection.create("/" + namespace, null);
         map.entrySet().stream().forEach(entry -> {
             try {
-                byte[] data = SerializationUtils.serialize(entry.getValue());
-                zkConnection.create(rootNode + "/" + entry.getKey(), data);
+                //byte[] data = SerializationUtils.serialize(entry.getValue());
+                zkConnection.create(rootNode + "/" + entry.getKey(), entry.getValue().getBytes());
             } catch (Exception e) {
                 e.printStackTrace();
             }

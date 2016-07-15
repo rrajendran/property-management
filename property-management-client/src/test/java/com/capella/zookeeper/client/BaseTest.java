@@ -1,6 +1,6 @@
 package com.capella.zookeeper.client;
 
-import com.capella.zookeeper.guice.PropertyManagementClientModule;
+import com.capella.zookeeper.guice.ApplicationModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.zookeeper.server.ServerCnxnFactory;
@@ -25,7 +25,7 @@ public class BaseTest {
     protected Injector injector;
 
     public BaseTest() {
-        injector = Guice.createInjector(new PropertyManagementClientModule());
+        injector = Guice.createInjector(new ApplicationModule());
         zookeeperClient = injector.getInstance(ZooKeeperClientImpl.class);
     }
 
