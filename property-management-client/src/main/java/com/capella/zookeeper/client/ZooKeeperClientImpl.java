@@ -1,10 +1,7 @@
 package com.capella.zookeeper.client;// import java classes
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
@@ -49,10 +46,10 @@ public class ZooKeeperClientImpl implements ZookeeperClient {
     public String create(String path, byte[] data) throws Exception {
         if(client.checkExists().forPath(path) != null){
             client.setData().forPath(path,data);
+            return path;
         }else{
             return client.create().creatingParentsIfNeeded().forPath(path, data);
         }
-        return path;
     }
 
     /**
