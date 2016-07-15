@@ -19,19 +19,19 @@ public class ZooKeeperClientImplTest extends BaseTest {
     @Before
     public void testCreate() throws Exception {
         byte[] data = SerializationUtils.serialize("helloworld");
-        path = zoo.create("/test", data);
+        path = zookeeperClient.create("/test", data);
         assertThat(path, is("/test"));
 
     }
 
     @Test
     public void testGetNode() throws KeeperException, InterruptedException {
-        assertThat(zoo.get(path, String.class), is("helloworld"));
+        assertThat(zookeeperClient.get(path, String.class), is("helloworld"));
     }
 
     @Test
     public void testGetChildren() throws Exception {
-        List<String> children = zoo.getChildren(path, new PropertiesWatcher());
+        List<String> children = zookeeperClient.getChildren(path, new PropertiesWatcher());
         for (String child : children) {
             System.out.println("child : " + child);
         }
@@ -39,6 +39,6 @@ public class ZooKeeperClientImplTest extends BaseTest {
 
     @After
     public void tearDown() throws Exception {
-        zoo.delete(path);
+        zookeeperClient.delete(path);
     }
 }

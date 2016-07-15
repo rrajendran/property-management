@@ -1,5 +1,8 @@
 package com.capella.zookeeper.client;
 
+import com.capella.zookeeper.guice.PropertyManagementClientModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.zookeeper.server.ServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
 import org.junit.AfterClass;
@@ -18,7 +21,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class BaseTest {
     public static final Logger LOGGER = getLogger(BaseTest.class);
     private static ServerCnxnFactory standaloneServerFactory;
-    protected ZooKeeperClientImpl zoo = ZooKeeperClientImpl.getInstance();
+    protected ZookeeperClient zookeeperClient;
+    protected Injector injector;
+
+    public BaseTest() {
+        injector = Guice.createInjector(new PropertyManagementClientModule());
+        zookeeperClient = injector.getInstance(ZooKeeperClientImpl.class);
+    }
+
     @BeforeClass
     public static void init() throws IOException, InterruptedException {
         try {

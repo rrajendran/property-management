@@ -2,7 +2,7 @@ package com.capella.zookeeper.loader;
 
 import com.capella.zookeeper.client.BaseTest;
 import com.capella.zookeeper.client.ZookeeperClient;
-import com.capella.zookeeper.guice.ApplicationModule;
+import com.capella.zookeeper.guice.PropertyManagementClientModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.After;
@@ -21,18 +21,18 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by ramesh on 29/05/2016.
  */
-public class PropertiesLoaderTest extends BaseTest {
-    Injector injector = Guice.createInjector(new ApplicationModule());
+public class PropertiesLoaderImplTest extends BaseTest {
+    Injector injector = Guice.createInjector(new PropertyManagementClientModule());
 
     private ZookeeperClient zookeeperClient;
-    private PropertiesLoader propertiesLoader;
+    private PropertiesLoaderImpl propertiesLoader;
 
     @Before
     public void setUp() throws Exception {
         zookeeperClient = injector.getInstance(ZookeeperClient.class);
         assertThat(zookeeperClient, is(notNullValue()));
 
-        propertiesLoader = injector.getInstance(PropertiesLoader.class);
+        propertiesLoader = injector.getInstance(PropertiesLoaderImpl.class);
         assertThat(propertiesLoader, is(notNullValue()));
 
 

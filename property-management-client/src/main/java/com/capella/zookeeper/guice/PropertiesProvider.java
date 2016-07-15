@@ -1,28 +1,32 @@
 package com.capella.zookeeper.guice;
 
-import com.capella.zookeeper.client.ZookeeperClient;
-import com.capella.zookeeper.client.ZooKeeperClientImpl;
 import com.google.inject.Provider;
+import org.slf4j.Logger;
 
-import java.util.List;
+import java.io.InputStream;
 import java.util.Properties;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class PropertiesProvider implements Provider<Properties> {
+    public static final Logger LOGGER = getLogger(PropertiesProvider.class);
 
     private static Properties properties = new Properties();
 
-    private static ZookeeperClient zookeeperClient = new ZooKeeperClientImpl();
+    /*private static ZookeeperClient zookeeperClient = new ZooKeeperClientImpl();*/
 
     static {
         try {
-            String rootNode = "/ipt-ss-fulfillment-services";
+            InputStream inputStream = PropertiesProvider.class.getClassLoader().getResourceAsStream("property-management-client.properties");
+            properties.load(inputStream);
+            /*String rootNode = "/ipt-ss-fulfillment-services";
             List<String> children = zookeeperClient.getChildren(rootNode, new PropertiesWatcher());
             for (String child : children) {
                 String path = rootNode + "/" + child;
                 properties.put(child, zookeeperClient.get(path, String.class));
-            }
+            }*/
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error("Get properties: " + ex);
         }
     }
 

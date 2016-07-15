@@ -9,34 +9,28 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.data.Stat;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 // import zk classes
 
 public class ZooKeeperClientImpl implements ZookeeperClient {
-    private static ZooKeeperClientImpl instance;
-    private static CuratorFramework client;
+    @Inject
+    private CuratorFramework client;
+
+    @Inject
+    private Properties properties;
+
 
     /**
      * @throws IOException
      * @throws InterruptedException
      */
     public ZooKeeperClientImpl() {
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        client = CuratorFrameworkFactory.newClient("localhost:2121", retryPolicy);
-        client.start();
-    }
 
-    /**
-     * Singleton instance
-     *
-     * @return
-     */
-    public static ZooKeeperClientImpl getInstance() {
-        return instance == null ? instance = new ZooKeeperClientImpl() : instance;
     }
-
 
     public CuratorFramework getZookeeper() {
         return this.client;
@@ -53,15 +47,12 @@ public class ZooKeeperClientImpl implements ZookeeperClient {
      * @throws IOException
      */
     public String create(String path, byte[] data) throws Exception {
-        if (client.checkExists().forPath(path) != null) {
-            Stat stat = client.setData().forPath(path, data);
-            if (stat == null) {
-                throw new RuntimeException("Set data is empty");
-            }
-            return path;
-        } else {
+        if(client.checkExists().forPath(path) != null){
+            client.setData().forPath(path,data);
+        }else{
             return client.create().creatingParentsIfNeeded().forPath(path, data);
         }
+        return path;
     }
 
     /**
