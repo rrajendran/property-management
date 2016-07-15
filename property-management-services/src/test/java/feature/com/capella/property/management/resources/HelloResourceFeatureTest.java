@@ -6,6 +6,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 /**
  * Created by dev on 15/7/16.
  */
+@Ignore
 public class HelloResourceFeatureTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);

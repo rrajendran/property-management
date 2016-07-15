@@ -1,7 +1,6 @@
 package com.capella.zookeeper.client;
 
 import com.capella.zookeeper.guice.PropertiesWatcher;
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.zookeeper.KeeperException;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class ZooKeeperClientImplTest extends BaseTest {
 
     @Before
     public void testCreate() throws Exception {
-        byte[] data = SerializationUtils.serialize("helloworld");
+        byte[] data = "helloworld".getBytes();
         path = zookeeperClient.create("/test", data);
         assertThat(path, is("/test"));
 
@@ -26,7 +25,7 @@ public class ZooKeeperClientImplTest extends BaseTest {
 
     @Test
     public void testGetNode() throws KeeperException, InterruptedException {
-        assertThat(zookeeperClient.get(path, String.class), is("helloworld"));
+        assertThat(zookeeperClient.get(path).toString(), is("helloworld"));
     }
 
     @Test

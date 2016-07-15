@@ -7,7 +7,7 @@
 
     <context-param>
         <param-name>resteasy.guice.modules</param-name>
-        <param-value>unit.com.capella.property.management.modules.ApplicationModule</param-value>
+        <param-value>com.capella.property.management.modules.ApplicationModule</param-value>
     </context-param>
 
     <listener>

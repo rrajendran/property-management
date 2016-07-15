@@ -1,4 +1,4 @@
-package unit.com.capella.property.management.modules;
+package com.capella.property.management.modules;
 
 import com.capella.property.management.resources.HelloResource;
 import com.capella.property.management.services.GreeterService;

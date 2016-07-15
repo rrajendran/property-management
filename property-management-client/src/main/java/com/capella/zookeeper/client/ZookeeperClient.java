@@ -14,7 +14,7 @@ public interface ZookeeperClient {
 
     Stat exists(String path) throws Exception;
 
-    <T> T get(String path, Class<T> t) throws InterruptedException, KeeperException;
+    byte[] get(String path) throws InterruptedException, KeeperException;
 
     List<String> getChildren(String path, Watcher watcher) throws Exception;
 

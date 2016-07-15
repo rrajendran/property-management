@@ -56,7 +56,7 @@ public class PropertiesLoaderImpl implements PropertiesLoader{
         Map<String, String> props = new HashMap<String, String>();
         for (String child : children) {
             String path = namespace + "/" + child;
-            props.put(child, zkConnection.get(path, String.class));
+            props.put(child, new String(zkConnection.get(path)));
         }
         return props;
 

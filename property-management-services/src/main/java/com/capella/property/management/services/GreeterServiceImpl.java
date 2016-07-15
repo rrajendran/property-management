@@ -13,8 +13,11 @@ public class GreeterServiceImpl implements GreeterService {
     private ZookeeperClient zookeeperClient;
 
     public Person greet(final String name) throws Exception {
-        zookeeperClient.create("/test/name", name.getBytes());
-        String n = zookeeperClient.get("/test/name", String.class);
+       /* byte[] data = SerializationUtils.serialize(name);
+        String path = zookeeperClient.create("/test/name", data);
+        System.out.println("path =- "+path);*/
+        String n = new String(zookeeperClient.get("/test/name"));
+        System.out.println("********data***********" + n);
         Person person = new Person();
         person.setName(n);
         person.setMessage("Hello world !! " + LocalDate.now());

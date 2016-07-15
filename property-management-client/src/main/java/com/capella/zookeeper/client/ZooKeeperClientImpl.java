@@ -1,6 +1,5 @@
 package com.capella.zookeeper.client;// import java classes
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.Watcher;
@@ -65,22 +64,18 @@ public class ZooKeeperClientImpl implements ZookeeperClient {
     }
 
     /**
-     * Get data for a give node path
      *
      * @param path
-     * @param t
-     * @param <T>
      * @return
      * @throws InterruptedException
      * @throws KeeperException
      */
-    public <T> T get(final String path, Class<T> t) throws InterruptedException, KeeperException {
+    public byte[] get(final String path) throws InterruptedException, KeeperException {
         try {
             Stat stat = exists(path);
 
             if (stat != null) {
-                byte[] b = client.getData().forPath(path);
-                return (T) SerializationUtils.deserialize(b);
+                return client.getData().forPath(path);
             } else {
                 System.out.println("Node does not exists");
             }
