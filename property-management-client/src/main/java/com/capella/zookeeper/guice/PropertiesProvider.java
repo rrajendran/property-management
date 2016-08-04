@@ -17,7 +17,7 @@ public class PropertiesProvider implements Provider<Properties> {
 
     static {
         try {
-            InputStream inputStream = PropertiesProvider.class.getClassLoader().getResourceAsStream("property-management-service.properties");
+            InputStream inputStream = PropertiesProvider.class.getClassLoader().getResourceAsStream("property-management-client.properties");
             properties.load(inputStream);
             /*String rootNode = "/ipt-ss-fulfillment-services";
             List<String> children = zookeeperClient.getChildren(rootNode, new PropertiesWatcher());

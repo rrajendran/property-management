@@ -2,9 +2,6 @@ package com.capella.zookeeper.loader;
 
 import com.capella.zookeeper.client.BaseTest;
 import com.capella.zookeeper.client.ZookeeperClient;
-import com.capella.zookeeper.guice.PropertyManagementClientModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +19,6 @@ import static org.junit.Assert.assertThat;
  * Created by ramesh on 29/05/2016.
  */
 public class PropertiesLoaderImplTest extends BaseTest {
-    Injector injector = Guice.createInjector(new PropertyManagementClientModule());
-
-    private ZookeeperClient zookeeperClient;
     private PropertiesLoaderImpl propertiesLoader;
 
     @Before

@@ -25,7 +25,7 @@ public class ZooKeeperClientImplTest extends BaseTest {
 
     @Test
     public void testGetNode() throws KeeperException, InterruptedException {
-        assertThat(zookeeperClient.get(path).toString(), is("helloworld"));
+        assertThat(new String(zookeeperClient.get(path)), is("helloworld"));
     }
 
     @Test
